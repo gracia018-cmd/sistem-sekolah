@@ -1,22 +1,41 @@
 <?php
 namespace App\Core;
 
+use App\Controllers\StudentsController;
+
 class Router
 {
+private array $routes = [];
 
-public function run()
+public function add[];
+
+public function run(string $method, string $uri, string $controller,string $function)
 {
+$This->route[] = [
+   'method' => $method,
+   'uri' =>  $uri,
+   'controller' =>$controller,
+   'Funcition' => $function,
+];
+}
    $method = $_SERVER['REQUEST_METHOD'];
    $uri = parse_url($_SERVER['REQUEST_URI'], component: PHP_URL_PATH);
    
+foreeach($this->routers as $route) {
+      
+}
+
+
    if ($method = 'GET' && $uri = '/students') {
-    echo '<h1>Daftar Siswa<h1>';
-    echo '<p>Menampilkan daftar Siswa</p>';
+   require_once './app/controllers/studentController.php';
+   $controller = new StudentsController();
+   $controller->index();
     return;
    }
   if ($method = 'GET' && $uri = '/students') {
-    echo '<h1>Daftar Siswa<h1>';
-    echo '<p>Menampilkan tambah Siswa</p>';
+  require_once './app/controllers/studentController.php';
+   $controller = new StudentsController();
+   $controller->Create();
     return;
 
 }

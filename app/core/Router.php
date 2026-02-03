@@ -5,46 +5,55 @@ use App\Controllers\StudentsController;
 
 class Router
 {
-private array $routes = [];
+   private array $routes = [];
 
-public function add[];
-
-public function run(string $method, string $uri, string $controller,string $function)
-{
-$This->route[] = [
-   'method' => $method,
-   'uri' =>  $uri,
-   'controller' =>$controller,
-   'Funcition' => $function,
-];
-}
-   $method = $_SERVER['REQUEST_METHOD'];
-   $uri = parse_url($_SERVER['REQUEST_URI'], component: PHP_URL_PATH);
-   
-foreeach($this->routers as $route) {
-      
-}
-
-
-   if ($method = 'GET' && $uri = '/students') {
-   require_once './app/controllers/studentController.php';
-   $controller = new StudentsController();
-   $controller->index();
-    return;
-   }
-  if ($method = 'GET' && $uri = '/students') {
-  require_once './app/controllers/studentController.php';
-   $controller = new StudentsController();
-   $controller->Create();
-    return;
-
-}
-
-http_response_code(response_code: 404);
-echo '<h1>404 - Page Not Found</h1>';
-
+   public function add(string $method, string $uri, string $controller, string $function)
+   {
+      $this->routes[] = [
+         'method' => $method,
+         'uri' => $uri,
+         'controller' => $controller,
+         'Funcition' => $function,
+      ];
    }
 
+   public function run()
+   {
+      $method = $_SERVER['REQUEST_METHOD'];
+      $uri = parse_url($_SERVER['REQUEST_URI'], component: PHP_URL_PATH);
+
+      foreach ($this->routes as $route) {
+         $pattern = str_replace(
+            '{id}',
+            '([0-9]+)',
+            $route['uri'],
+         );
+
+         $pattern = '#^' . $pattern . '$#';
+         // /student/([0-9]+)
+
+         if (preg_match($pattern, $uri, $matches)) {
+            array_shift($matches);
+         require_once './app/controllers/' . $route['controller'] . '.php';
+
+            $controllerClass = 'App\\Controllers\\' . $route['controller'];
+            $controller = new $controllerClass();
+            $function = $route['function'];
+
+
+            call_user_func([$controller, $function], $matches);
+            // shortcut: index($parameter1, $parameter2, dst);
+            // exampls: call_user_func_array(['StudentController', ' index'], [1,2])
+            return;
+         }
+
+      }
+
+
+      http_response_code(response_code: 404);
+      echo '<h1>404 - Page Not Found</h1>';
+
+   }
 
 }
 

@@ -7,14 +7,12 @@ class StudentController
   public function index()
   {
 
-    echo '<h1>Daftar Siswa<h1>';
-    echo '<p>Menampilkan daftar Siswa</p>';
+     Require_once "../app/views/students/index.php";
   }
 
   public function create()
   {
-    echo '<h1>Daftar Siswa<h1>';
-    echo '<p>Menampilkan tambah Siswa</p>';
+   Require_once "../app/views/students/create.php";
 
   }
 
@@ -22,8 +20,7 @@ class StudentController
 
   public function show(string $id)
   {
-    echo '<h1>Detail Siswa</h1>';
-    echo "<p>Menampilkan detail siswa 1D: {$id} </h1>";
+   Require_once "../app/views/students/show.php";
 
   }
 
